@@ -21,4 +21,4 @@ typedef struct ListHead {
 ListHead* list_init();
 ListItem* list_find(ListHead* head, ListItem* item);
 ListItem* new_item();
-
+void list_insert(ListItem* prec, ListItem* item);

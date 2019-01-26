@@ -4,18 +4,21 @@
 #include "linked_list.h"
 
 //programma di test
-#define MAX_ITEM 15
 
 int main() {
 	printf("programma di test delle funzioni per la gestione della lista...\n");
 	ListHead* lista=list_init();
 	ListItem* f=new_item();
 	ListItem* g=new_item();
-	printf("%d\n", f);
-	printf("%d\n", g);
-	printf("%d\n", lista);
+	printf("%d = elemento f\n", f);
+	printf("%d = elemento g\n", g);
+	printf("%d = testa lista\n", lista);
 	lista->first=f;
-	printf("%d\n", lista->first);
-	printf("%d\n", list_find(lista, g));
+	printf("%d = primo elemento della lista\n", lista->first);
+	printf("%d = valore di ritorno della list_find(lista, g)\n", list_find(lista, g));
+	list_insert(NULL, f);
+	list_insert(lista->first, NULL);
+	list_insert(lista->first, g);
+	printf("%d = valore di ritorno della list_find(lista, g)\n", list_find(lista, g));
 	return 0;
 }

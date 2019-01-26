@@ -1,8 +1,11 @@
 all:
-	gcc -o list_test -O1 *.c *.h -Wall
+	gcc -o list_test -O1 *.c *.h -Wall 
 
 clean:
 	rm list_test
 
-test:
+run:
 	./list_test
+
+test:
+	valgrind ./list_test
