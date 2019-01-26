@@ -7,15 +7,16 @@
  * file con le funzioni per la gestione di una lista collegata
  **/
 
-void list_init(ListHead* head, char name[]) {
+ListHead* list_init() {
 	//funzione che inizializza la lista
-	head->first=0;
-	head->last=0;
+	ListHead* head=(ListHead*)malloc(sizeof(ListHead));
+	head->first=NULL;
+	head->last=NULL;
 	head->size=0;
-	strcpy(head->name, name);
+	return head;
 }
 
-int list_find(ListHead* head, ListItem* item) {
+ListItem* list_find(ListHead* head, ListItem* item) {
 	/*
 	 * funzione che tramite una scansione lineare cerca un elemento nella lista,
 	 * ritorna 1 se è presente, 0 altrimenti
@@ -23,24 +24,18 @@ int list_find(ListHead* head, ListItem* item) {
 	ListItem* aux=head->first;
 	while(aux) {
 		if (aux==item) {
-			return 1;
+			return aux;
 		}
 		aux=aux->next;
 	}
-	return 0;
+	return NULL;
 }
 
-ListItem* list_insert(ListHead* head, ListItem* prev, ListItem* item) {
-	if (prev==NULL || item==NULL) {
-		return 0;
-	}
-	if (list_find(head, prev)==0) {
-		return 0;
-	}
-	ListItem* aux;
-	aux->prev=item;
-	item->next=aux;
-	prev->next=item;
-	item->prev=prev;
+ListItem* new_item() {
+	/* funzione per la creazione di un nuovo elemento */
+	ListItem* item=(ListItem*)malloc(sizeof(ListItem));
+	item->next=NULL;
+	item->prev=NULL;
 	return item;
 }
+
