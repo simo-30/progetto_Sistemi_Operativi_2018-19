@@ -22,8 +22,15 @@ int main() {
 	list_insert(lista, NULL, f);
 	list_insert(lista, lista->first, NULL);
 	list_insert(lista, lista->first, g);
+	#if DEBUG
+	print_ind_lista(lista);
+	#endif
+	remove_item(lista, g);
 	printf("%d = valore di ritorno della list_find(lista, g)\n", list_find(lista, g));
 	printf("%d = valore della testa rimossa\n", remove_first(lista));
 	printf("%d = testa della lista\n", lista->first);
+	#if DEBUG
+	print_ind_lista(lista);
+	#endif
 	return 0;
 }

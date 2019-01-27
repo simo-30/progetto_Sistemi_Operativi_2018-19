@@ -22,3 +22,7 @@ ListItem* new_item();
 void list_insert(ListHead* head, ListItem* prec, ListItem* item);
 void list_insert_first(ListHead* head, ListItem* item);
 ListItem* remove_first(ListHead* head);
+ListItem* remove_item(ListHead* head, ListItem* item);
+#if DEBUG
+void print_ind_lista(ListHead* head);
+#endif

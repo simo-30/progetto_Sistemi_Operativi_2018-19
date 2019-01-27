@@ -78,6 +78,7 @@ void list_insert_first(ListHead* head, ListItem* item) {
 		item->prev=head->first->prev;
 	}
 	head->first=item;
+	head->size+=1;
 	#if DEBUG
 	printf("Testa della lista aggiornata con successo\n");
 	#endif
@@ -99,8 +100,40 @@ ListItem* remove_first(ListHead* head) {
 		printf("la testa è null\n");
 		#endif
 	}
+	head->size-=1;
 	#if DEBUG
 	printf("rimozione della testa avvenuta con successo\n");
 	#endif
 	return ret;
 }
+
+ListItem* remove_item(ListHead* head, ListItem* item) {
+	//funzione per la rimozione di un elemento
+	ListItem* aux=head->first;
+	while (aux) {
+		if (aux==item) {
+			aux->prev->next=aux->next;
+			#if DEBUG
+			printf("Elemento trovato: %d\n", aux);
+			#endif
+			return aux;
+		}
+		aux=aux->next;
+	}
+	head->size-=1;
+	#if DEBUG
+	printf("L'elemento non è nella lista\n");
+	#endif
+	return NULL;
+}
+
+#if DEBUG
+void print_ind_lista(ListHead* head) {
+	ListItem* aux=head->first;
+	while (aux) {
+		printf("--- #%d ---\n", aux);
+		aux=aux->next;
+	}
+	return;
+}
+#endif
