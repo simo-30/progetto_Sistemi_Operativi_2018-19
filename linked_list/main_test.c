@@ -16,9 +16,9 @@ int main() {
 	lista->first=f;
 	printf("%d = primo elemento della lista\n", lista->first);
 	printf("%d = valore di ritorno della list_find(lista, g)\n", list_find(lista, g));
-	list_insert(NULL, f);
-	list_insert(lista->first, NULL);
-	list_insert(lista->first, g);
+	list_insert(lista, NULL, f);
+	list_insert(lista, lista->first, NULL);
+	list_insert(lista, lista->first, g);
 	printf("%d = valore di ritorno della list_find(lista, g)\n", list_find(lista, g));
 	return 0;
 }

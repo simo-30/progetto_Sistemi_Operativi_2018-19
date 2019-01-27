@@ -38,20 +38,25 @@ ListItem* new_item() {
 	return item;
 }
 
-void list_insert(ListItem* prec, ListItem* item) {
+void list_insert(ListHead* head, ListItem* prec, ListItem* item) {
 	/** 
 	 * il controllo su quale lista stiamo aggiungendo l'elemento
 	 * verrà fatto a monte, ossia quando dovremo inserire l'elemento
 	 * si cercherà la posizione in cui inserirlo, per cui, si starà
-	 * lavorando già in una lista 
+	 * lavorando già in una lista;
+	 * serve avere la testa della lista, va aumentato il campo il size
 	 **/
 	if (item==NULL) {
 		//l'elemento da inserire non può essere nullo
-		perror("Elemento da inserire nullo, non valido");
+		#if DEBUG
+		printf("Elemento da inserire nullo, non valido\n");
+		#endif
 		return;
 	}
 	if (prec==NULL) {
-		perror("Elemento precedente nullo, non valido");
+		#if DEBUG
+		printf("Elemento precedente nullo, non valido\n");
+		#endif
 		return;
 	}
 	item->next=prec->next;
@@ -60,5 +65,6 @@ void list_insert(ListItem* prec, ListItem* item) {
 	}
 	item->prev=prec;
 	prec->next=item;
+	head->size+=1;
 	return;
 }
