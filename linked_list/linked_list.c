@@ -10,7 +10,6 @@ ListHead* list_init() {
 	//funzione che inizializza la lista
 	ListHead* head=(ListHead*)malloc(sizeof(ListHead));
 	head->first=NULL;
-	head->last=NULL;
 	head->size=0;
 	return head;
 }
@@ -53,9 +52,9 @@ void list_insert(ListHead* head, ListItem* prec, ListItem* item) {
 		#endif
 		return;
 	}
-	if (prec==NULL) {
+	if (list_find(head, prec)==NULL) {
 		#if DEBUG
-		printf("Elemento precedente nullo, non valido\n");
+		printf("Elemento precedente non nella lista, non valido\n");
 		#endif
 		return;
 	}
@@ -66,5 +65,42 @@ void list_insert(ListHead* head, ListItem* prec, ListItem* item) {
 	item->prev=prec;
 	prec->next=item;
 	head->size+=1;
+	#if DEBUG
+	printf("Elemento inserito con successo\n");
+	#endif
 	return;
+}
+
+void list_insert_first(ListHead* head, ListItem* item) {
+	//funzione per inserimento in testa
+	if (head->first!=NULL) {
+		item->next=head->first->next;
+		item->prev=head->first->prev;
+	}
+	head->first=item;
+	#if DEBUG
+	printf("Testa della lista aggiornata con successo\n");
+	#endif
+	return;
+}
+
+ListItem* remove_first(ListHead* head) {
+	//funzione per la rimozione della testa
+	ListItem* ret=head->first;
+	if (head->first->next!=NULL) {
+		head->first=ret->next;
+		#if DEBUG
+		printf("aggiornamento della testa con l'elemento successivo\n");
+		#endif
+	}
+	else {
+		head->first=NULL;
+		#if DEBUG
+		printf("la testa è null\n");
+		#endif
+	}
+	#if DEBUG
+	printf("rimozione della testa avvenuta con successo\n");
+	#endif
+	return ret;
 }

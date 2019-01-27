@@ -9,11 +9,9 @@ typedef struct ListItem {
 
 typedef struct ListHead {
 	ListItem* first;
-	ListItem* last;
 	int size;
-	/* testa della lista con puntatore al primo ed all'ultimo elemento
+	/* testa della lista con puntatore al primo elemento
 	 * un intero per la dimensione della lista
-	 * ed un puntatore a char per il nome della lista
 	 */
 } ListHead;
 
@@ -22,3 +20,5 @@ ListHead* list_init();
 ListItem* list_find(ListHead* head, ListItem* item);
 ListItem* new_item();
 void list_insert(ListHead* head, ListItem* prec, ListItem* item);
+void list_insert_first(ListHead* head, ListItem* item);
+ListItem* remove_first(ListHead* head);
