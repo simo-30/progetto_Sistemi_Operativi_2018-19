@@ -9,7 +9,7 @@ typedef struct {
 	ListItem list;
 	TypeResource type;
 	int duration;
-} my_event;
+} My_Event;
 
 typedef struct {
 	//struttura che simula un processo
@@ -17,4 +17,4 @@ typedef struct {
 	int pid; //assegnato dal programma di prova
 	int arrival_time;
 	ListHead events;
-} my_process;
+} My_Process;
