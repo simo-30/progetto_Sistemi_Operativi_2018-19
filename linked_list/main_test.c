@@ -4,6 +4,7 @@
 #include "linked_list.h"
 
 //programma di test
+#define MAX_ELEM 20
 
 int main() {
 	printf("programma di test delle funzioni per la gestione della lista...\n");
@@ -25,10 +26,18 @@ int main() {
 	#if DEBUG
 	print_ind_lista(lista);
 	#endif
-	remove_item(lista, g);
+	//remove_item(lista, g);
 	printf("%d = valore di ritorno della list_find(lista, g)\n", list_find(lista, g));
 	printf("%d = valore della testa rimossa\n", remove_first(lista));
 	printf("%d = testa della lista\n", lista->first);
+	#if DEBUG
+	print_ind_lista(lista);
+	#endif
+	int i;
+	for (i=0; i<MAX_ELEM; i++) {
+		ListItem* it=new_item();
+		list_insert(lista, lista->first, it);
+	}
 	#if DEBUG
 	print_ind_lista(lista);
 	#endif

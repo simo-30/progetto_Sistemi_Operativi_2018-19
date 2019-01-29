@@ -18,3 +18,7 @@ typedef struct {
 	int arrival_time;
 	ListHead events;
 } My_Process;
+
+int My_Process_load(My_Process* p, const char* filename);
+int My_Process_save(const My_Process* p, const char* filename);
+void My_Process_create(const char* filename);
