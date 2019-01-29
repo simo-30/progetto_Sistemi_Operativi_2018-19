@@ -11,6 +11,6 @@ int main() {
 	#if DEBUG
 	print_process(proc);
 	#endif
-	free(proc);
+	destroy_process(proc);
 	return 0;
 }

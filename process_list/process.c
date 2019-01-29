@@ -10,8 +10,8 @@ ProcessType* create_Process(int pid, int max_time_arrive, int max_duration) {
 	srand(time(NULL));
 	proc->time_arrive=rand() % max_time_arrive;
 	proc->duration=1 + rand() % max_duration;
-	int ris=rand()%10 +1;
-	if (ris<=5) {
+	int ris=rand()%100;
+	if (ris<=50) {
 		proc->resource=CPU;
 	}
 	else {
@@ -29,3 +29,8 @@ void print_process(ProcessType* process) {
 	return;
 }
 #endif
+
+void destroy_process(ProcessType* process) {
+	free(process);
+	return;
+}

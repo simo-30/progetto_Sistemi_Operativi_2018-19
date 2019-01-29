@@ -31,3 +31,5 @@ ProcessType* create_Process(int pid, int max_time_arrive, int max_duration);
 #if DEBUG
 void print_process(ProcessType* process);
 #endif
+
+void destroy_process(ProcessType* process);
