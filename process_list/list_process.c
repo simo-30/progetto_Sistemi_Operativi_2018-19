@@ -78,11 +78,17 @@ void print_list(ListProcess* list) {
 
 void destroy_list(ListProcess* list) {
 	ProcessItem* aux=list->first;
-	while (aux) {
+	if (list->first==NULL) {
+		free(list->name);
+		free(list);
+		return;
+	}
+	while (aux!=NULL) {
 		destroy_process(aux->process);
 		aux=aux->next;
 	}
 	free(aux);
+	free(list->name);
 	free(list);
 	return;
 }
@@ -115,5 +121,47 @@ void print_list_onFile(ListProcess* list, const char* nameFile) {
 		aux=aux->next;
 	}
 	fclose(fd);
+	return;
+}
+
+void insert_key_duration(ListProcess* list, ProcessItem* proc) {
+	ListProcess* auxList=list;
+	if (auxList->first==NULL) {
+		auxList->first=proc;
+		list->size+=1;
+		return;
+	}
+	ProcessItem* aux=auxList->first;
+	if (proc->process->duration < aux->process->duration) {
+		proc->next=aux;
+		auxList->first=proc;
+		list->size+=1;
+		return;
+	}
+	if (proc->process->duration == aux->process->duration && proc->process->pid < aux->process->pid) {
+		proc->next=aux;
+		auxList->first=proc;
+		list->size+=1;
+		return;
+	}
+	while (aux->next!=NULL) {
+		if (proc->process->duration < aux->next->process->duration) {
+			ProcessItem* pross=aux->next;
+			proc->next=pross;
+			aux->next=proc;
+			list->size+=1;
+			return;
+		}
+		if (proc->process->duration == aux->next->process->duration && proc->process->pid < aux->next->process->pid) {
+			ProcessItem* pross=aux->next;
+			proc->next=pross;
+			aux->next=proc;
+			list->size+=1;
+			return;
+		}
+		aux=aux->next;
+	}
+	aux->next=proc;
+	list->size+=1;
 	return;
 }

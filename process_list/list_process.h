@@ -25,3 +25,4 @@ void print_list(ListProcess* list);
 void destroy_list(ListProcess* list);
 ProcessItem* remove_first(ListProcess* list);
 void print_list_onFile(ListProcess* list, const char* nameFile);
+void insert_key_duration(ListProcess* list, ProcessItem* proc);
