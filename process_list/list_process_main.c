@@ -26,10 +26,11 @@ int main() {
 	}
 	print_list(lista);
 	print_list(q);
-	ProcessItem* p=remove_first(lista);
-	print_process(p->process);
+	//ProcessItem* p=remove_first(lista);
+	//print_process(p->process);
 	print_list_onFile(lista, "listaProcessiArrivo.txt");
 	print_list_onFile(lista, "listaProcessiDurata.txt");
+	print_list_onlyPid(lista);
 	destroy_list(lista);
 	destroy_list(q);
 }
