@@ -20,3 +20,14 @@ typedef struct {
 	int duration;
 	ResourceType resource;
 } ProcessType; 
+
+ProcessType* create_Process(int pid, int max_time_arrive, int max_duration); 
+/* 
+ * funzione che crea un processo con pid dato, e con tempo di arrivo casuale, ma minore di
+ * max_time_arrive, e con duration casuale, ma minore di max_duration, 
+ * e con il tipo di risorsa richiesta (CPU o I/O) generata casualmente
+*/
+
+#if DEBUG
+void print_process(ProcessType* process);
+#endif
