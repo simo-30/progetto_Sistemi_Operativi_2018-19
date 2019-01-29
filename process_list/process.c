@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+#pragma once
 
 ProcessType* create_Process(int pid, int max_time_arrive, int max_duration) {
 	//genero un processo in modo casuale, con pid dato
@@ -10,8 +11,8 @@ ProcessType* create_Process(int pid, int max_time_arrive, int max_duration) {
 	srand(time(NULL));
 	proc->time_arrive=rand() % max_time_arrive;
 	proc->duration=1 + rand() % max_duration;
-	int ris=rand()%100;
-	if (ris<=50) {
+	int ris=rand()%1000;
+	if (ris<=500) {
 		proc->resource=CPU;
 	}
 	else {
@@ -20,15 +21,14 @@ ProcessType* create_Process(int pid, int max_time_arrive, int max_duration) {
 	return proc;
 }
 
-#if DEBUG
 void print_process(ProcessType* process) {
 	printf("**** process pid	%d ****\n", process->pid);
 	printf("     time arriving	%d     \n", process->time_arrive);
 	printf("     duration 		%d     \n", process->duration);
 	printf("     resource		%d	   \n", process->resource);
+	printf("******************************\n");
 	return;
 }
-#endif
 
 void destroy_process(ProcessType* process) {
 	free(process);

@@ -8,9 +8,7 @@
 int main() {
 	printf("---- programma di prova per testare le funzioni sui processi ----\n\n");
 	ProcessType* proc=create_Process(0, MAX_TIME_ARRIVE, MAX_DURATION);
-	#if DEBUG
 	print_process(proc);
-	#endif
 	destroy_process(proc);
 	return 0;
 }

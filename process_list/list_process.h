@@ -1,5 +1,6 @@
 //header con strutture dati e funzioni per la gestione di una lista di processi
 #include "process.h"
+#pragma once
 
 typedef struct item {
 	struct item* next;
@@ -13,3 +14,14 @@ typedef struct {
 } ListProcess;
 
 ListProcess* new_ListProcess(const char* name);
+void insert_key_time_arrive(ListProcess* list, ProcessItem* proc);
+/*
+ * la funzione soprà prototipata inserisce un processo in una lista,
+ * in base al tempo di arrivo dal minore al maggiore (nel caso di tempo uguali confronterà il pid),
+ * servirà per gestirà la prima lista con i processi appena creati, che verranno poi schedulati
+*/
+ProcessItem* new_process(int pid, int max_time_arrive, int max_duration);
+void print_list(ListProcess* list);
+void destroy_list(ListProcess* list);
+ProcessItem* remove_first(ListProcess* list);
+void print_list_onFile(ListProcess* list, const char* nameFile);

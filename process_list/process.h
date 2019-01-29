@@ -1,5 +1,5 @@
 //header con le strutture dati di un processo e i prototipi delle funzioni
-
+#pragma once
 typedef enum {CPU=0, IO=1} ResourceType;
 
 typedef struct {
@@ -28,8 +28,5 @@ ProcessType* create_Process(int pid, int max_time_arrive, int max_duration);
  * e con il tipo di risorsa richiesta (CPU o I/O) generata casualmente
 */
 
-#if DEBUG
 void print_process(ProcessType* process);
-#endif
-
 void destroy_process(ProcessType* process);
