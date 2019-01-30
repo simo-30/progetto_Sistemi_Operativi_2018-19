@@ -179,3 +179,23 @@ void print_list_onlyPid(ListProcess* list) {
 	printf("\n\n");
 	return;
 }
+
+void print_list_onlyPid_onFile(ListProcess* list, const char* nameFile) {
+	FILE* fd=fopen(nameFile, "w");
+	if (fd==-1) {
+		printf("errore nell'apertura del file\n");
+		return;
+	}
+	if (list==NULL) {
+		fprintf(fd, "-------");
+		return;
+	}
+	ProcessItem* aux=list->first;
+	fprintf(fd, "%s\n\n", list->name);
+	while (aux) {
+		fprintf(fd, "pid:\t#%d\n", aux->process->pid);
+		aux=aux->next;
+	}
+	fclose(fd);
+	return;
+}
