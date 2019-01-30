@@ -10,3 +10,5 @@
  * quale il processo non può arrivare, quindi il tempo di arrivo effettivo viene calcolato in 
  * modo casuale nel range fra tempo minimo e tempo massimo
 */
+
+int process_next_burst(ProcessType* proc, int time_min, int time_max, int duration_max);
