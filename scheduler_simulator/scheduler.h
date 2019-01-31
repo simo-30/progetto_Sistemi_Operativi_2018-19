@@ -50,3 +50,7 @@ void request_new_resources(ListProcess* waiting, ListProcess* arriving, int minT
 	 * in stato di I/O; da quella di waiting prende ogni processo ne genera nuova durata,
 	 * tempo di arrivo e richiesta di risorsa ed in base al tipo di risorsa lo inserisce
 	 * nella lista appropriata**/
+
+void switching_process(ListProcess* ready, ListProcess* io, ProcessItem* proc);
+	/**questa funzione inserisce il processo proc nella lista appropriata in base 
+	 * al tipo di risorsa richiesta**/

@@ -67,11 +67,25 @@ void insert_on_arriving_list(ListProcess* list, ProcessItem* proc) {
 }
 
 void request_new_resources(ListProcess* waiting, ListProcess* arriving, int minTime, int maxTime, int maxDuration) {
-	ProcessItem* aux=waiting->first;
+	ProcessItem* aux=remove_first(waiting);
 	while (aux) {
-		process_next_burst(aux->process, minTime, maxTime, maxDuration);
-		insert_on_arriving_list(arriving, aux);
-		aux=aux->next;
+		int res=process_next_burst(aux->process, minTime, maxTime, maxDuration);
+		if (res==0) {
+			insert_on_arriving_list(arriving, aux);
+		}
+		aux=remove_first(waiting);
+	}
+	return;
+}
+
+void switching_process(ListProcess* ready, ListProcess* io, ProcessItem* proc) {
+	if (proc->process->resource==CPU) {
+		insert_on_ready_list(ready, proc);
+		return;
+	}
+	if (proc->process->resource==IO) {
+		insert_on_IO_list(io, proc);
+		return;
 	}
 	return;
 }
