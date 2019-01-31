@@ -100,6 +100,7 @@ ProcessItem* remove_first(ListProcess* list) {
 	ProcessItem* ret=list->first;
 	list->first=list->first->next;
 	list->size-=1;
+	ret->next=NULL;
 	return ret;
 }
 

@@ -12,3 +12,4 @@ timing:
 
 clean:
 	rm ./scheduler_main
+	rm *.txt
