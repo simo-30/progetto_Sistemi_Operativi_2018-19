@@ -7,10 +7,10 @@ il tempo di arrivo, ed il tipo di risorsa richiesta, CPU o I/O).
 Serviranno delle variabili globali per gestire le liste dei processi, in particolare ci saranno le seguenti
 liste:
 
-+) lista dei processi in arrivo
-+) lista dei processi in stato di waiting
-+) lista dei processi in stato di ready
-+) lista dei processi in stato di I/O
+1) lista dei processi in arrivo;
+2) lista dei processi in stato di waiting;
+3) lista dei processi in stato di ready;
+4) lista dei processi in stato di I/O;
 
 Ci sarà un processo alla volta che sarà nello stato di running.
 
