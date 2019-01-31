@@ -55,3 +55,23 @@ void insert_on_waiting_list(ListProcess* list, ProcessItem* proc) {
 	list->size+=1;
 	return;
 }
+
+void insert_on_ready_list(ListProcess* list, ProcessItem* proc) {
+	insert_key_duration(list, proc);
+	return;
+}
+
+void insert_on_arriving_list(ListProcess* list, ProcessItem* proc) {
+	insert_key_time_arrive(list, proc);
+	return;
+}
+
+void request_new_resources(ListProcess* waiting, ListProcess* arriving, int minTime, int maxTime, int maxDuration) {
+	ProcessItem* aux=waiting->first;
+	while (aux) {
+		process_next_burst(aux->process, minTime, maxTime, maxDuration);
+		insert_on_arriving_list(arriving, aux);
+		aux=aux->next;
+	}
+	return;
+}

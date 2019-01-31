@@ -35,3 +35,18 @@ void insert_on_waiting_list(ListProcess* list, ProcessItem* proc);
 	 * tempo di arrivo, una nuova durata ed una nuova richiesta di risorsa
 	 * non interessa in che ordine vengano inseriti nella lista, per cui per ottimizzare
 	 * la funzione verranno inseriti in testa**/
+
+void insert_on_ready_list(ListProcess* list, ProcessItem* proc);
+	/**questa funzione inserisce il processo proc nella lista dei processi ready,
+	 * in base alla durata della risorsa richiesta dal processo**/
+
+void insert_on_arriving_list(ListProcess* list, ProcessItem* proc);
+	/**questa funzione inserisce nella lista dei processi in arrivo (list) il processo proc,
+	 * in base al tempo di arrivo**/
+
+void request_new_resources(ListProcess* waiting, ListProcess* arriving, int minTime, int maxTime, int maxDuration);
+	/**questa funzione prende 3 liste, una per i processi in waiting, una per quelli
+	 * in ready (che quindi richiedono come risorsa solo la CPU) ed una per i processi
+	 * in stato di I/O; da quella di waiting prende ogni processo ne genera nuova durata,
+	 * tempo di arrivo e richiesta di risorsa ed in base al tipo di risorsa lo inserisce
+	 * nella lista appropriata**/
