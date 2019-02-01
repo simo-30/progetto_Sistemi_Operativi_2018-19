@@ -216,3 +216,41 @@ ProcessItem* new_process_fromData(int pid, int arriveTime, int duration, int res
 	}
 	return p;
 }
+
+void print_list_onFileMode(ListProcess* list, const char* nameFile, char* mode) {
+	FILE* fd=fopen(nameFile, mode);
+	if (fd==NULL) {
+		printf("errore di apertura del file\n");
+		return;
+	}
+	int i;
+	fprintf(fd, "%s\n\n", list->name);
+	ProcessItem* aux=list->first;
+	for (i=0; i<list->size; i++) {
+		fprintf(fd, "**** process pid	%d ****\n", aux->process->pid);
+		fprintf(fd, "     time arriving	%d     \n", aux->process->time_arrive);
+		fprintf(fd, "     duration 		%d     \n", aux->process->duration);
+		fprintf(fd, "     resource		%d	   \n", aux->process->resource);
+		fprintf(fd, "******************************\n");
+		aux=aux->next;
+	}
+	fclose(fd);
+	return;
+}
+
+void print_list_onlyPid_onFileMode(ListProcess* list, const char* nameFile, char* mode) {
+	FILE* fd=fopen(nameFile, mode);
+	if (list==NULL) {
+		fprintf(fd, "-------");
+		return;
+	}
+	ProcessItem* aux=list->first;
+	fprintf(fd, "%s\n{", list->name);
+	while (aux) {
+		fprintf(fd, "%d  ", aux->process->pid);
+		aux=aux->next;
+	}
+	fprintf(fd, "}");
+	fclose(fd);
+	return;
+}
