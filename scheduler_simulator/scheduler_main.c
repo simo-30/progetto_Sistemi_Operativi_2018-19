@@ -29,5 +29,8 @@ int main() {
 	print_list(l);
 	print_list_onlyPid(l);
 	destroy_list(l);
+	ListProcess* q=generate_new_processes_fromFile("prova.txt");
+	print_list(q);
+	destroy_list(q);
 	return 0;
 }

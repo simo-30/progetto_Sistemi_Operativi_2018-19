@@ -37,12 +37,12 @@ void destroy_process(ProcessType* process) {
 
 ProcessType* create_Process_fromData(int pid, int timeArrive, int duration, int resource) {
 	ProcessType* proc=(ProcessType*)malloc(sizeof(ProcessType));
-	if (resource!=0 || resource!=1) {
-		return NULL;
+	if (resource==0 || resource==1) {
+		proc->pid=pid;
+		proc->time_arrive=timeArrive;
+		proc->duration=duration;
+		proc->resource=resource;
+		return proc;
 	}
-	proc->pid=pid;
-	proc->time_arrive=timeArrive;
-	proc->duration=duration;
-	proc->resource=resource;
-	return proc;
+	return NULL;
 }

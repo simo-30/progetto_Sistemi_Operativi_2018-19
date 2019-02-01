@@ -65,6 +65,9 @@ ProcessItem* new_process(int pid, int max_time_arrive, int max_duration) {
 }
 
 void print_list(ListProcess* list) {
+	if (list==NULL) {
+		return;
+	}
 	ListProcess* aux=list;
 	printf("%s\n\n", list->name);
 	ProcessItem* p=aux->first;
@@ -190,11 +193,23 @@ void print_list_onlyPid_onFile(ListProcess* list, const char* nameFile) {
 		return;
 	}
 	ProcessItem* aux=list->first;
-	fprintf(fd, "%s\n\n", list->name);
+	fprintf(fd, "%s\n{", list->name);
 	while (aux) {
-		fprintf(fd, "pid:\t#%d\n", aux->process->pid);
+		fprintf(fd, "%d  ", aux->process->pid);
 		aux=aux->next;
 	}
+	fprintf(fd, "}");
 	fclose(fd);
 	return;
+}
+
+ProcessItem* new_process_fromData(int pid, int arriveTime, int duration, int resource) {
+	ProcessItem* p=(ProcessItem*)malloc(sizeof(ProcessItem));
+	p->next=NULL;
+	p->process=create_Process_fromData(pid, arriveTime, duration, resource);
+	if (p->process==NULL) {
+		printf("errore nella creazione del processo\n");
+		return NULL;
+	}
+	return p;
 }

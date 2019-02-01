@@ -54,3 +54,6 @@ void request_new_resources(ListProcess* waiting, ListProcess* arriving, int minT
 void switching_process(ListProcess* ready, ListProcess* io, ProcessItem* proc);
 	/**questa funzione inserisce il processo proc nella lista appropriata in base 
 	 * al tipo di risorsa richiesta**/
+
+ListProcess* generate_new_processes_fromFile(const char* nameFile);
+	/**questa funzione legge da file una serie di dati che trasforma in una lista di processi in arrivo**/

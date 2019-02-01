@@ -3,6 +3,7 @@
 #include "nextBurst.h"
 #include "scheduler.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 #pragma once
 
@@ -88,4 +89,42 @@ void switching_process(ListProcess* ready, ListProcess* io, ProcessItem* proc) {
 		return;
 	}
 	return;
+}
+
+ListProcess* generate_new_processes_fromFile(const char* nameFile) {
+	/* MODALITÀ DI SALVATAGGIO NEL FILE:
+	 * 		"nome lista"
+	 * 		PID (int) (int) (int) (int)
+	 * 		...
+	 * 1° int => numero di pid
+	 * 2° int => tempo di arrivo
+	 * 3° int => durata
+	 * 4° int => tipo di risorsa*/
+	FILE* fd=fopen(nameFile, "r");
+	if (fd==NULL) {
+		printf("Non è stato possibile aprire il file %s\n", nameFile);
+		return NULL;
+	}
+	char* buffer=NULL;
+	size_t line_len=0;
+	if (getline(&buffer, &line_len, fd) <= 0) {
+		printf("errore di lettura dal file %s\n", nameFile);
+		return NULL;
+	}
+	ListProcess* l=new_ListProcess(buffer);
+	while (getline(&buffer, &line_len, fd) > 0) {
+		int pid, time, dur, res;
+		res=-1;
+		int num_tokens=0;
+		num_tokens=sscanf(buffer, "PID %d %d %d %d", &pid, &time, &dur, &res);
+		if (res==0 || res==1) {
+			ProcessItem* p=new_process_fromData(pid, time, dur, res);
+			insert_key_time_arrive(l, p);
+		}
+		else {
+			printf("tipo di risorsa richiesta dal processo #%d non valida\n", pid);
+		}
+	}
+	fclose(fd);
+	return l;
 }

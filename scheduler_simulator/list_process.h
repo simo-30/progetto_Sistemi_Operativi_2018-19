@@ -28,3 +28,4 @@ void print_list_onFile(ListProcess* list, const char* nameFile);
 void insert_key_duration(ListProcess* list, ProcessItem* proc);
 void print_list_onlyPid(ListProcess* list);
 void print_list_onlyPid_onFile(ListProcess* list, const char* nameFile);
+ProcessItem* new_process_fromData(int pid, int arriveTime, int duration, int resource);
