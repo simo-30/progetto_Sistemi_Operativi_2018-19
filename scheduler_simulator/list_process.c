@@ -80,6 +80,9 @@ void print_list(ListProcess* list) {
 }
 
 void destroy_list(ListProcess* list) {
+	if (list==NULL) {
+		return;
+	}
 	ProcessItem* aux=list->first;
 	if (list->first==NULL) {
 		free(list->name);

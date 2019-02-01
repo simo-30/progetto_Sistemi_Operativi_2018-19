@@ -102,7 +102,7 @@ ListProcess* generate_new_processes_fromFile(const char* nameFile) {
 	 * 4° int => tipo di risorsa*/
 	FILE* fd=fopen(nameFile, "r");
 	if (fd==NULL) {
-		printf("Non è stato possibile aprire il file %s\n", nameFile);
+		printf("Non è stato possibile aprire il file '%s'\n", nameFile);
 		return NULL;
 	}
 	char* buffer=NULL;
