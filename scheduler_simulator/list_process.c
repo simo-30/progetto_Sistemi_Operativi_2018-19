@@ -172,12 +172,14 @@ void print_list_onlyPid(ListProcess* list) {
 		printf("----\n");
 		return;
 	}
+	printf("%s:\n", list->name);
 	ProcessItem* aux=list->first;
+	printf("{");
 	while (aux) {
-		printf("#%d\t", aux->process->pid);
+		printf("#%d  ", aux->process->pid);
 		aux=aux->next;
 	}
-	printf("\n\n");
+	printf("}\n\n");
 	return;
 }
 

@@ -30,3 +30,6 @@ ProcessType* create_Process(int pid, int max_time_arrive, int max_duration);
 
 void print_process(ProcessType* process);
 void destroy_process(ProcessType* process);
+ProcessType* create_Process_fromData(int pid, int timeArrive, int duration, int resource);
+/* questa funzione crea un processo dato il pid, il tempo di arrivo, la durata e il tipo di risorsa,
+ * verrà chiamata da un'altra funzione che prenderà tali parametri da un file*/ 
