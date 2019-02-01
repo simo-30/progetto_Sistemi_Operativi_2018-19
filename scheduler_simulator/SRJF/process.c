@@ -8,7 +8,7 @@ ProcessType* create_Process(int pid, int max_time_arrive, int max_duration) {
 	//genero un processo in modo casuale, con pid dato
 	ProcessType* proc=(ProcessType*)malloc(sizeof(ProcessType));
 	proc->pid=pid;
-	srand(time(NULL)+pid*(max_time_arrive*max_duration));
+	//srand(time(NULL));
 	proc->time_arrive=rand() % max_time_arrive;
 	proc->duration=1 + rand() % max_duration;
 	int ris=rand()%1000;
