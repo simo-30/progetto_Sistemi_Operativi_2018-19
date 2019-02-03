@@ -20,7 +20,7 @@ ListProcess* waiting; //lista dei processi che hanno terminato
 ListProcess* input_output; //lista dei processi in stato di I/O
 ListProcess* ready; //lista dei processi in stato di ready che aspettano di essere processati
 ProcessItem* running; //processo in esecuzione
-unsigned int t; //varibile per tenere traccia a che ciclo dello scheduling si è
+unsigned int timing; //varibile per tenere traccia a che ciclo dello scheduling si è
 
 /* i parametri possono essere così passati in base alla versione:
  * +) VERSION=0 (automatica) -> <maxPid> <maxTime> <maxDuration>
@@ -62,5 +62,15 @@ int main(int argc, char** argv) {
 	#elif VERSION==1
 	arriving=generate_new_processes_fromFile(nameFile);
 	#endif
-	print_list(arriving);
+	waiting=new_ListProcess("waiting processes");
+	ready=new_ListProcess("ready processes");
+	input_output=new_ListProcess("I/O processes");
+	running=new_process_fromData(maxPid+1, maxTime+1, maxDuration+1, 1);
+	for (timing=0; timing<maxTime; timing++) {
+		//ciclo principale dove si svolgerà tutto il lavoro dello scheduler
+		while (arriving->first!=NULL && arriving->first->process->time_arrive==timing) {
+			ProcessItem* p=remove_first(arriving);
+			switching_process(read, input_output, p);
+		}
+	}
 }

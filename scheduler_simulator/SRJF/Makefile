@@ -4,6 +4,12 @@ all:
 
 run_auto:
 	./srjf_sim_auto
-
+	
 clean:
 	rm srjf_sim_auto srjf_sim_file
+
+test_auto:
+	valgrind ./srjf_sim_auto
+	
+timing_auto:
+	time ./srjf_sim_auto

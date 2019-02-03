@@ -30,7 +30,7 @@ void insert_on_IO_list(ListProcess* list, ProcessItem* proc);
 
 void insert_on_waiting_list(ListProcess* list, ProcessItem* proc);
 	/**questa funzione prende una lista (dei processi in stato di waiting, 
-	 * ossia che hanno terminato il loro lavoro) e ne inserisce unaltro in lista,
+	 * ossia che hanno terminato il loro lavoro) e ne inserisce un altro in lista,
 	 * e siccome comunque poi per tutti questi processi verranno generati un nuovo
 	 * tempo di arrivo, una nuova durata ed una nuova richiesta di risorsa
 	 * non interessa in che ordine vengano inseriti nella lista, per cui per ottimizzare
