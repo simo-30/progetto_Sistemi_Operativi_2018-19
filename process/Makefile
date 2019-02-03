@@ -1,5 +1,5 @@
 all:
-	gcc -o procMain -O1 proc_vector.h proc_vector.c main.c -Wall -w
+	gcc -o procMain -O1 proc.h proc.c main.c -Wall -w
 	
 run:
 	./procMain
