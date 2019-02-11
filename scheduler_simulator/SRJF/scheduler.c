@@ -51,9 +51,7 @@ void insert_on_IO_list(ListProcess* list, ProcessItem* proc) {
 }
 
 void insert_on_waiting_list(ListProcess* list, ProcessItem* proc) {
-	proc->next=list->first;
-	list->first=proc;
-	list->size+=1;
+	insert_key_duration(list, proc);
 	return;
 }
 
@@ -68,13 +66,18 @@ void insert_on_arriving_list(ListProcess* list, ProcessItem* proc) {
 }
 
 void request_new_resources(ListProcess* waiting, ListProcess* arriving, int minTime, int maxTime, int maxDuration) {
+	if (waiting->first==NULL) {
+		return;
+	}	
 	ProcessItem* aux=remove_first(waiting);
+	int res=1;
 	while (aux) {
-		int res=process_next_burst(aux->process, minTime, maxTime, maxDuration);
+		res=process_next_burst(aux->process, minTime, maxTime, maxDuration);
 		if (res==0) {
 			insert_on_arriving_list(arriving, aux);
 		}
-		aux=remove_first(waiting);
+		if (waiting->first!=NULL) aux=remove_first(waiting);
+		else break;
 	}
 	return;
 }

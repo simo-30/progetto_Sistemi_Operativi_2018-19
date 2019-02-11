@@ -21,7 +21,7 @@ ListProcess* input_output; //lista dei processi in stato di I/O
 ListProcess* ready; //lista dei processi in stato di ready che aspettano di essere processati
 ProcessItem* running; //processo in esecuzione
 ProcessItem* pr; //variabile per il processo che viene preso dalla lista arriving
-unsigned int timing; //varibile per tenere traccia a che ciclo dello scheduling si è
+int timing; //varibile per tenere traccia a che ciclo dello scheduling si è
 
 /* i parametri possono essere così passati in base alla versione:
  * +) VERSION=0 (automatica) -> <maxPid> <maxTime> <maxDuration>
@@ -71,34 +71,42 @@ int main(int argc, char** argv) {
 	for (timing=0; timing<maxTime; timing++) {
 		//ciclo principale dove si svolgerà tutto il lavoro dello scheduler
 		printf("--- Tempo %d ---\n", timing);
-		print_list(ready);
-		print_list(input_output);
-		print_list(waiting);
+		print_list_onlyPid(arriving);
+		print_list_onlyPid(ready);
+		print_list_onlyPid(input_output);
+		print_list_onlyPid(waiting);
 		while (arriving->first!=NULL && arriving->first->process->time_arrive == timing) {
 			pr=remove_first(arriving);
-			if (pr->process->resource==CPU && pr->process->duration < running->process->duration) {
+			if ((pr->process->resource==CPU && pr->process->duration < running->process->duration) || running->process->duration<=0) {
 				//swapping tra il processo running e pr
 				ProcessItem* aux=running;
 				running=pr;
 				pr=aux;
 			}
-			if (pr->process->resource==CPU && pr->process->duration == running->process->duration && pr->process->pid < running->process->pid) {
+			else if (pr->process->resource==CPU && pr->process->duration == running->process->duration && pr->process->pid < running->process->pid) {
 				//swapping tra il processo running e pr
 				ProcessItem* aux=running;
 				running=pr;
 				pr=aux;
 			}
-			print_process(pr->process);
-			if (pr->process->resource==CPU) {
+			else if (pr->process->resource==CPU) {
 				insert_on_ready_list(ready, pr);
 			}
-			if (pr->process->resource==IO) {
+			else if (pr->process->resource==IO) {
 				insert_on_IO_list(input_output, pr);
+			}
+			if (running) {
+				printf("running process\n");
+				print_process(running->process);
 			}
 		}
 		//manca ancora l'inserimento di altri processi in running 
 		//e togliere quelli che finiscono dallo stato di I/O
-		reduce_duration_running(running); //ad ogni ciclo riduco di una unità il lavoro rimanente al processo in running
+		if (running!=NULL) reduce_duration_running(running); //ad ogni ciclo riduco di una unità il lavoro rimanente al processo in running
+		if (running!=NULL && running->process->duration==0) {
+			insert_on_waiting_list(waiting, running);
+			if (ready->first!=NULL) running=remove_first(ready);
+		}
 		reduce_duration_io(input_output); //ad ogni ciclo riduco di una unità il lavoro rimanente a tutti i processi in I/O
 		printf("------\n\n");
 	}

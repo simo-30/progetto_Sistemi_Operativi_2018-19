@@ -4,6 +4,9 @@ all:
 
 run_auto:
 	./srjf_sim_auto
+
+run_file:
+	./srjf_sim_file
 	
 clean:
 	rm srjf_sim_auto srjf_sim_file

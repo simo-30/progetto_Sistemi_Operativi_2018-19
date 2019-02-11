@@ -17,7 +17,7 @@ typedef struct {
 	 **/
 	int pid;
 	int time_arrive;
-	int duration;
+	unsigned int duration;
 	ResourceType resource;
 } ProcessType; 
 

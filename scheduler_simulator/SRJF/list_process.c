@@ -176,7 +176,7 @@ void insert_key_duration(ListProcess* list, ProcessItem* proc) {
 
 void print_list_onlyPid(ListProcess* list) {
 	if (list->first==NULL) {
-		printf("----\n");
+		printf("%s {}\n", list->name);
 		return;
 	}
 	printf("%s:\n", list->name);
@@ -246,12 +246,12 @@ void print_list_onlyPid_onFileMode(ListProcess* list, const char* nameFile, char
 		return;
 	}
 	ProcessItem* aux=list->first;
-	fprintf(fd, "%s\n{", list->name);
+	fprintf(fd, "%s:\n{", list->name);
 	while (aux) {
 		fprintf(fd, "%d  ", aux->process->pid);
 		aux=aux->next;
 	}
-	fprintf(fd, "}");
+	fprintf(fd, "}\n\n");
 	fclose(fd);
 	return;
 }
