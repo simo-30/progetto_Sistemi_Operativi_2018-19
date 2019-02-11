@@ -133,7 +133,9 @@ void print_list_onFile(ListProcess* list, const char* nameFile) {
 
 void insert_key_duration(ListProcess* list, ProcessItem* proc) {
 	ListProcess* auxList=list;
-	if (auxList->first==NULL) {
+	//print_list(auxList);
+	if (auxList==NULL || auxList->first==NULL) {
+		printf("ciao");
 		auxList->first=proc;
 		list->size+=1;
 		return;

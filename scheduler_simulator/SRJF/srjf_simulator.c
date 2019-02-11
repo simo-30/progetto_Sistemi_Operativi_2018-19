@@ -68,9 +68,6 @@ int main(int argc, char** argv) {
 	running=new_process_fromData(maxPid+1, maxTime+1, maxDuration+1, 1);
 	for (timing=0; timing<maxTime; timing++) {
 		//ciclo principale dove si svolgerà tutto il lavoro dello scheduler
-		while (arriving->first!=NULL && arriving->first->process->time_arrive==timing) {
-			ProcessItem* p=remove_first(arriving);
-			switching_process(read, input_output, p);
-		}
+		printf("hi");
 	}
 }
