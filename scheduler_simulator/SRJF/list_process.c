@@ -135,7 +135,6 @@ void insert_key_duration(ListProcess* list, ProcessItem* proc) {
 	ListProcess* auxList=list;
 	//print_list(auxList);
 	if (auxList==NULL || auxList->first==NULL) {
-		printf("ciao");
 		auxList->first=proc;
 		list->size+=1;
 		return;
