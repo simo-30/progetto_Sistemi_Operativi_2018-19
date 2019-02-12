@@ -9,7 +9,7 @@ run_file:
 	./srjf_sim_file
 	
 clean:
-	rm srjf_sim_auto srjf_sim_file
+	rm srjf_sim_auto srjf_sim_file file_processes/scheduler.txt
 
 test_auto:
 	valgrind ./srjf_sim_auto
