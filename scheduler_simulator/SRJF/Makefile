@@ -12,7 +12,7 @@ clean:
 	rm srjf_sim_auto srjf_sim_file file_processes/scheduler.txt
 
 test_auto:
-	valgrind ./srjf_sim_auto
+	valgrind ./srjf_sim_auto -v
 	
 timing_auto:
 	time ./srjf_sim_auto

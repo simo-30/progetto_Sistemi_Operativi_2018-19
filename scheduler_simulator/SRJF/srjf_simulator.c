@@ -85,15 +85,16 @@ int main(int argc, char** argv) {
 		print_scheduler_onFile(NAME_FILE, timing, arriving, ready, input_output, waiting);
 		while (arriving->first!=NULL && arriving->first->process->time_arrive == timing) {
 			pr=remove_first(arriving); /**prendo il primo elemento della lista dei processi in arrivo**/
-			if (running->process->pid==-1) {
-				/* processo running non valido,
-				 * quindi l'ultimo processo in running ha finito il suo lavoro
-				 * ne devo prendere un altro dalla lista di ready 
-				 * e poi confrontare il job rimanente con il processo appena 
-				 * rimosso dalla lista dei processi in arrivo*/
-				if (ready->first!=NULL) {
-					//è presente almeno un processo nella lista dei processi in ready
-					running=remove_first(ready);
+			if (pr->process->resource==CPU) { //il processo pr deve richiedere la CPU
+				if (running->process->pid==-1) {
+					/* processo running non valido,
+					* quindi l'ultimo processo in running ha finito il suo lavoro
+					* ne devo prendere un altro dalla lista di ready 
+					* e poi confrontare il job rimanente con il processo appena 
+					* rimosso dalla lista dei processi in arrivo*/
+					if (ready->first!=NULL) {
+						//è presente almeno un processo nella lista dei processi in ready
+						running=remove_first(ready);
 					//ora devo confrontare il job rimanente fra running e pr, dando priorità in caso siano uguali al pid minore
 					if (pr->process->duration < running->process->duration) {
 						ProcessItem* aux=(ProcessItem*)malloc(sizeof(ProcessItem)); //processo di appoggio per lo swap dei processi
@@ -117,16 +118,42 @@ int main(int argc, char** argv) {
 					/**per evitare conflitti successivamente con l'inserimento del processo nella lista
 					 * giusta, quello in running avrà i campi data uguali a pr, e pr avrà come pid -1,
 					 * ad indicare che NON deve essere inserito in nessuna lista**/
+					pr->process->pid=-1;
+				}
+				}
+				else {
+					/* è già presente un processo in running valido
+					* devo confrontare il lavoro rimanente con il processo appena
+					* rimosso dalla lista dei processi in arrivo*/
+					if (pr->process->duration < running->process->duration) {
+						ProcessItem* aux=(ProcessItem*)malloc(sizeof(ProcessItem)); //processo di appoggio per lo swap dei processi
+						aux=running;
+						running=pr;
+						pr=aux;
+						free(aux);
+					}
+					else if (pr->process->duration == running->process->duration && pr->process->pid < running->process->pid) {
+						ProcessItem* aux=(ProcessItem*)malloc(sizeof(ProcessItem)); //processo di appoggio per lo swap dei processi
+						aux=running;
+						running=pr;
+						pr=aux;
+						free(aux);
+					}
 				}
 			}
-			else {
-				/* è già presente un processo in running valido
-				* devo confrontare il lavoro rimanente con il processo appena
-				* rimosso dalla lista dei processi in arrivo*/
+			/**fatti i confronti per determinare quale processo deve rimanere in running
+			 * ora devo inserire il processo pr nella lista giusta, verificando prima tramite 
+			 * il pid se sia un processo valido o no**/
+			if (pr!=NULL && pr->process!=NULL && pr->process->pid > -1) {
+				//il processo pr è valido quindi posso inserirlo nella lista giusta in base al tipo di risorsa richiesta
+				if (pr->process->resource==CPU) {
+					insert_on_ready_list(ready, pr);
+				}
+				else if (pr->process->resource==IO) {
+					insert_on_IO_list(input_output, pr);
+				}
 			}
 		}
-		//manca ancora l'inserimento di altri processi in running 
-		//e togliere quelli che finiscono dallo stato di I/O
 		printf("------\n\n");
 	}
 	fd=fopen(NAME_FILE, "a");
