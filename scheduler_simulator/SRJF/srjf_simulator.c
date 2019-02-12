@@ -57,6 +57,9 @@ int main(int argc, char** argv) {
 		exit(1);
 	}
 	#endif
+	FILE* fd=fopen(NAME_FILE, "w");
+	fprintf(fd, "STARTING SCHEDULER\n\n");
+	fclose(fd);
 	printf("Starting scheduler\n");
 	srand(time(NULL));
 	#if VERSION==0
@@ -88,13 +91,45 @@ int main(int argc, char** argv) {
 				 * ne devo prendere un altro dalla lista di ready 
 				 * e poi confrontare il job rimanente con il processo appena 
 				 * rimosso dalla lista dei processi in arrivo*/
+				if (ready->first!=NULL) {
+					//è presente almeno un processo nella lista dei processi in ready
+					running=remove_first(ready);
+					//ora devo confrontare il job rimanente fra running e pr, dando priorità in caso siano uguali al pid minore
+					if (pr->process->duration < running->process->duration) {
+						ProcessItem* aux=(ProcessItem*)malloc(sizeof(ProcessItem)); //processo di appoggio per lo swap dei processi
+						aux=running;
+						running=pr;
+						pr=aux;
+						free(aux);
+					}
+					else if (pr->process->duration == running->process->duration && pr->process->pid < running->process->pid) {
+						ProcessItem* aux=(ProcessItem*)malloc(sizeof(ProcessItem)); //processo di appoggio per lo swap dei processi
+						aux=running;
+						running=pr;
+						pr=aux;
+						free(aux);
+					}
+				}
+				else {
+					/* non ci sono processi in ready
+					 * quindi pr sarà in running*/
+					running=new_process_fromData(pr->process->pid, pr->process->time_arrive, pr->process->duration, pr->process->resource);
+					/**per evitare conflitti successivamente con l'inserimento del processo nella lista
+					 * giusta, quello in running avrà i campi data uguali a pr, e pr avrà come pid -1,
+					 * ad indicare che NON deve essere inserito in nessuna lista**/
+				}
 			}
-			/* è già presente un processo in running valido
-			 * devo confrontare il lavoro rimanente con il processo apenna
-			 * rimosso dalla lista dei processi in arrivo*/
+			else {
+				/* è già presente un processo in running valido
+				* devo confrontare il lavoro rimanente con il processo appena
+				* rimosso dalla lista dei processi in arrivo*/
+			}
 		}
 		//manca ancora l'inserimento di altri processi in running 
 		//e togliere quelli che finiscono dallo stato di I/O
 		printf("------\n\n");
 	}
+	fd=fopen(NAME_FILE, "a");
+	fprintf(fd, "\nEND SCHEDULER");
+	fclose(fd);
 }
