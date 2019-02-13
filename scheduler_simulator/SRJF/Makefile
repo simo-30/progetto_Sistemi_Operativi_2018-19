@@ -13,9 +13,15 @@ clean:
 
 test_auto:
 	valgrind ./srjf_sim_auto
+
+test_file:
+	valgrind ./srjf_sim_file "file_processes/procIn/normal.txt"
 	
 timing_auto:
 	time ./srjf_sim_auto
+
+timing_file:
+	time ./srjf_sim_file "file_processes/procIn/normal.txt"
 
 go_auto:
 	./srjf_sim_auto "file_processes/normal.txt"
