@@ -173,9 +173,25 @@ int main(int argc, char** argv) {
 				}
 			}
 		}
+		else {
+			if (ready->first!=NULL) {
+				//se è presente un processo in ready sarà il prossimo ad essere in running
+				running=remove_first(ready);
+			}
+		}
+		/**ora devo dimuire il lavoro dei processi in I/O**/
+		reduce_duration_io(input_output); //riduco di un'unità il lavoro rimanente ai processi in I/O
+		while (input_output->first!=NULL && input_output->first->process->duration==0) {
+			//il primo processo in I/O ha finito di lavorare 
+			//quindi lo inserisco nella lista di waiting
+			ProcessItem* aux=remove_first(input_output);
+			insert_on_waiting_list(waiting, aux);
+		}
 		printf("------\n\n");
 	}
 	fd=fopen(NAME_FILE, "a");
 	fprintf(fd, "\nEND SCHEDULER");
 	fclose(fd);
+	printf("\nEND SCHEDULER\n");
+	return(0);
 }
