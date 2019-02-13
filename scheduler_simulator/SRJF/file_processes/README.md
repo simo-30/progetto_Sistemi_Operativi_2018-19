@@ -1,3 +1,2 @@
-In questa cartella ci saranno i file da cui verranno caricati e salvati i processi,
-in particolare nella cartella load ci saranno quelli da caricare, nella cartella save
-ci saranno i file con i processi creati dallo scheduler
+In questa cartella ci saranno i file da cui verranno caricati i processi,
+ed i file in cui verranno salvati la stampa dello stato dello scheduler

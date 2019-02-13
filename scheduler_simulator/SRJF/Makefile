@@ -6,13 +6,19 @@ run_auto:
 	./srjf_sim_auto
 
 run_file:
-	./srjf_sim_file
+	./srjf_sim_file "file_processes/procIn/normal.txt"
 	
 clean:
-	rm srjf_sim_auto srjf_sim_file file_processes/scheduler.txt
+	rm srjf_sim_auto srjf_sim_file file_processes/*.txt
 
 test_auto:
-	valgrind ./srjf_sim_auto -v
+	valgrind ./srjf_sim_auto
 	
 timing_auto:
 	time ./srjf_sim_auto
+
+go_auto:
+	./srjf_sim_auto "file_processes/normal.txt"
+	./srjf_sim_auto 5 10 2 "file_processes/simple.txt"
+	./srjf_sim_auto 100 10 10 "file_processes/plusProc.txt"
+	./srjf_sim_auto 10 20 30 "file_processes/plusDur.txt"
