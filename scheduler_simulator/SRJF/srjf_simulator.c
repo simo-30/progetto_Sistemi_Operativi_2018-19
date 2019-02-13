@@ -95,31 +95,31 @@ int main(int argc, char** argv) {
 					if (ready->first!=NULL) {
 						//è presente almeno un processo nella lista dei processi in ready
 						running=remove_first(ready);
-					//ora devo confrontare il job rimanente fra running e pr, dando priorità in caso siano uguali al pid minore
-					if (pr->process->duration < running->process->duration) {
-						ProcessItem* aux=(ProcessItem*)malloc(sizeof(ProcessItem)); //processo di appoggio per lo swap dei processi
-						aux=running;
-						running=pr;
-						pr=aux;
-						free(aux);
+						//ora devo confrontare il job rimanente fra running e pr, dando priorità in caso siano uguali al pid minore
+						if (pr->process->duration < running->process->duration) {
+							ProcessItem* aux=(ProcessItem*)malloc(sizeof(ProcessItem)); //processo di appoggio per lo swap dei processi
+							aux=running;
+							running=pr;
+							pr=aux;
+							free(aux);
+						}
+						else if (pr->process->duration == running->process->duration && pr->process->pid < running->process->pid) {
+							ProcessItem* aux=(ProcessItem*)malloc(sizeof(ProcessItem)); //processo di appoggio per lo swap dei processi
+							aux=running;
+							running=pr;
+							pr=aux;
+							free(aux);
+						}
 					}
-					else if (pr->process->duration == running->process->duration && pr->process->pid < running->process->pid) {
-						ProcessItem* aux=(ProcessItem*)malloc(sizeof(ProcessItem)); //processo di appoggio per lo swap dei processi
-						aux=running;
-						running=pr;
-						pr=aux;
-						free(aux);
+					else {
+						/* non ci sono processi in ready
+						* quindi pr sarà in running*/
+						running=new_process_fromData(pr->process->pid, pr->process->time_arrive, pr->process->duration, pr->process->resource);
+						/**per evitare conflitti successivamente con l'inserimento del processo nella lista
+						* giusta, quello in running avrà i campi data uguali a pr, e pr avrà come pid -1,
+						* ad indicare che NON deve essere inserito in nessuna lista**/
+						pr->process->pid=-1;
 					}
-				}
-				else {
-					/* non ci sono processi in ready
-					 * quindi pr sarà in running*/
-					running=new_process_fromData(pr->process->pid, pr->process->time_arrive, pr->process->duration, pr->process->resource);
-					/**per evitare conflitti successivamente con l'inserimento del processo nella lista
-					 * giusta, quello in running avrà i campi data uguali a pr, e pr avrà come pid -1,
-					 * ad indicare che NON deve essere inserito in nessuna lista**/
-					pr->process->pid=-1;
-				}
 				}
 				else {
 					/* è già presente un processo in running valido
@@ -151,6 +151,25 @@ int main(int argc, char** argv) {
 				}
 				else if (pr->process->resource==IO) {
 					insert_on_IO_list(input_output, pr);
+				}
+			}
+		}
+		//ho preso il processo in arrivo e messo nella lista in base al tipo di risorsa richiesta
+		//ora devo diminuire di un'unità il lavoro rimanente al processo running
+		if (running->process->pid != -1) {
+			//il processo deve essere valido
+			reduce_duration_running(running);
+			if (running->process->duration==0) {
+				ProcessItem* aux=new_process_fromData(running->process->pid, running->process->time_arrive, running->process->resource, running->process->resource);
+				insert_on_waiting_list(waiting, aux);
+				if (ready->first!=NULL) {
+					running=remove_first(ready); 
+					/**essendo presente almeno un processo nella lista ready,
+					 * il primo di essi viene messo in running**/
+				}
+				else {
+					/*non ci sono processi in ready, quindi l'attuale processo in running non è più valido*/
+					running->process->pid=-1; //il processo running non è più valido
 				}
 			}
 		}
