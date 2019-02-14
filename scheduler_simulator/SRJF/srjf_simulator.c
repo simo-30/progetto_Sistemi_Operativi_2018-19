@@ -68,6 +68,13 @@ int main(int argc, char** argv) {
 		nameFileIn=(char*)malloc(s*sizeof(char)+1);
 		strcpy(nameFileIn, argv[1]);
 	}
+	if (argc==3) {
+		int s=strlen(argv[1]);
+		nameFileIn=(char*)malloc(s*sizeof(char)+1);
+		strcpy(nameFileIn, argv[1]);
+		nameFileOut=(char*)malloc(strlen(argv[2])*sizeof(char)+1);
+		strcpy(nameFileOut, argv[2]);
+	}
 	else {
 		printf("usage:\n executable <maxTime> <maxDuration> <fileNameIn>\n or\n executable <fileNameIn>\n");
 		exit(1);
@@ -328,5 +335,10 @@ int main(int argc, char** argv) {
 	fprintf(fd, "\nEND SCHEDULER");
 	fclose(fd);
 	printf("\nEND SCHEDULER\n");
+	//libero la memoria
+	destroy_list(arriving);
+	destroy_list(ready);
+	destroy_list(input_output);
+	destroy_list(waiting);
 	return(0);
 }

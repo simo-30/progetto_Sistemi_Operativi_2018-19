@@ -30,12 +30,10 @@ void print_process(ProcessType* process) {
 	return;
 }
 
-/*
 void destroy_process(ProcessType* process) {
 	free(process);
 	return;
 }
-*/
 
 ProcessType* create_Process_fromData(int pid, int timeArrive, int duration, int resource) {
 	ProcessType* proc=(ProcessType*)malloc(sizeof(ProcessType));

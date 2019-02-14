@@ -79,7 +79,7 @@ void print_list(ListProcess* list) {
 	return;
 }
 
-/*
+
 void destroy_list(ListProcess* list) {
 	if (list==NULL) {
 		return;
@@ -99,7 +99,7 @@ void destroy_list(ListProcess* list) {
 	free(list);
 	return;
 }
-*/
+
 
 ProcessItem* remove_first(ListProcess* list) {
 	if (list->first==NULL) {
