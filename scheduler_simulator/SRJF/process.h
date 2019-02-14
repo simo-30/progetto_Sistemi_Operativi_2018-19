@@ -33,3 +33,4 @@ void destroy_process(ProcessType* process);
 ProcessType* create_Process_fromData(int pid, int timeArrive, int duration, int resource);
 /* questa funzione crea un processo dato il pid, il tempo di arrivo, la durata e il tipo di risorsa,
  * verrà chiamata da un'altra funzione che prenderà tali parametri da un file*/ 
+void append_process_onFile(ProcessType* process, const char* nameFile);

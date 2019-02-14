@@ -58,4 +58,4 @@ void switching_process(ListProcess* ready, ListProcess* io, ProcessItem* proc);
 ListProcess* generate_new_processes_fromFile(const char* nameFile);
 	/**questa funzione legge da file una serie di dati che trasforma in una lista di processi in arrivo**/
 
-void print_scheduler_onFile(const char* nameFile, int timing, ListProcess* arriving, ListProcess* ready, ListProcess* input_output, ListProcess* waiting);
+void print_scheduler_onFile(const char* nameFile, int timing, ListProcess* arriving, ListProcess* ready, ListProcess* input_output, ListProcess* waiting, ProcessItem* running);

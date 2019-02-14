@@ -125,7 +125,7 @@ ListProcess* generate_new_processes_fromFile(const char* nameFile) {
 	return l;
 }
 
-void print_scheduler_onFile(const char* nameFile, int timing, ListProcess* arriving, ListProcess* ready, ListProcess* input_output, ListProcess* waiting) {
+void print_scheduler_onFile(const char* nameFile, int timing, ListProcess* arriving, ListProcess* ready, ListProcess* input_output, ListProcess* waiting, ProcessItem* running) {
 	FILE* fd=fopen(nameFile, "a");
 	fprintf(fd,"---- Time %d ----\n", timing);
 	fclose(fd);
@@ -133,6 +133,10 @@ void print_scheduler_onFile(const char* nameFile, int timing, ListProcess* arriv
 	print_list_onlyPid_onFileMode(ready, nameFile, "a");
 	print_list_onlyPid_onFileMode(input_output, nameFile, "a");
 	print_list_onlyPid_onFileMode(waiting, nameFile, "a");
+	if (running->process->pid!=-1) {
+		//il processo running deve essere valido
+		append_process_onFile(running->process, nameFile);
+	}
 	fd=fopen(nameFile, "a");
 	fprintf(fd,"----------------\n\n");
 	fclose(fd);

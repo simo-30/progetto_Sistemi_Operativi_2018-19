@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
 			printf("\nrunning process\n");
 			print_process(running->process);
 		}
-		print_scheduler_onFile(nameFileOut, timing, arriving, ready, input_output, waiting);
+		print_scheduler_onFile(nameFileOut, timing, arriving, ready, input_output, waiting, running);
 		while (arriving->first!=NULL && arriving->first->process->time_arrive == timing) {
 			pr=remove_first(arriving); /**prendo il primo elemento della lista dei processi in arrivo**/
 			if (pr->process->resource==CPU) { //il processo pr deve richiedere la CPU
@@ -230,7 +230,7 @@ int main(int argc, char** argv) {
 			printf("\nrunning process\n");
 			print_process(running->process);
 		}
-		print_scheduler_onFile(nameFileOut, timing, arriving, ready, input_output, waiting);
+		print_scheduler_onFile(nameFileOut, timing, arriving, ready, input_output, waiting, running);
 		while (arriving->first!=NULL && arriving->first->process->time_arrive == timing) {
 			pr=remove_first(arriving); /**prendo il primo elemento della lista dei processi in arrivo**/
 			if (pr->process->resource==CPU) { //il processo pr deve richiedere la CPU
