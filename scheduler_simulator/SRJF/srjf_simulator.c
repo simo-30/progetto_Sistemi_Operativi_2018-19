@@ -42,12 +42,12 @@ int main(int argc, char** argv) {
 		nameFileOut=(char*)malloc(s*sizeof(char)+1);
 		strcpy(nameFileOut, argv[1]);
 	}
-	if (argc==4) {
+	else if (argc==4) {
 		maxPid=atoi(argv[1]);
 		maxTime=atoi(argv[2]);
 		maxDuration=atoi(argv[3]);
 	}
-	if (argc==5) {
+	else if (argc==5) {
 		maxPid=atoi(argv[1]);
 		maxTime=atoi(argv[2]);
 		maxDuration=atoi(argv[3]);
@@ -63,12 +63,12 @@ int main(int argc, char** argv) {
 		nameFileIn=(char*)malloc(s*sizeof(char)+1);
 		strcpy(nameFileIn, argv[3]);
 	}
-	if (argc==2) {
+	else if (argc==2) {
 		int s=strlen(argv[1]);
 		nameFileIn=(char*)malloc(s*sizeof(char)+1);
 		strcpy(nameFileIn, argv[1]);
 	}
-	if (argc==3) {
+	else if (argc==3) {
 		int s=strlen(argv[1]);
 		nameFileIn=(char*)malloc(s*sizeof(char)+1);
 		strcpy(nameFileIn, argv[1]);
