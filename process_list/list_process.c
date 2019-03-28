@@ -65,6 +65,9 @@ ProcessItem* new_process(int pid, int max_time_arrive, int max_duration) {
 }
 
 void print_list(ListProcess* list) {
+	if (list==NULL) {
+		return;
+	}
 	ListProcess* aux=list;
 	printf("%s\n\n", list->name);
 	ProcessItem* p=aux->first;
@@ -76,7 +79,11 @@ void print_list(ListProcess* list) {
 	return;
 }
 
+
 void destroy_list(ListProcess* list) {
+	if (list==NULL) {
+		return;
+	}
 	ProcessItem* aux=list->first;
 	if (list->first==NULL) {
 		free(list->name);
@@ -93,6 +100,7 @@ void destroy_list(ListProcess* list) {
 	return;
 }
 
+
 ProcessItem* remove_first(ListProcess* list) {
 	if (list->first==NULL) {
 		return NULL;
@@ -100,6 +108,7 @@ ProcessItem* remove_first(ListProcess* list) {
 	ProcessItem* ret=list->first;
 	list->first=list->first->next;
 	list->size-=1;
+	ret->next=NULL;
 	return ret;
 }
 
@@ -126,7 +135,8 @@ void print_list_onFile(ListProcess* list, const char* nameFile) {
 
 void insert_key_duration(ListProcess* list, ProcessItem* proc) {
 	ListProcess* auxList=list;
-	if (auxList->first==NULL) {
+	//print_list(auxList);
+	if (auxList==NULL || auxList->first==NULL) {
 		auxList->first=proc;
 		list->size+=1;
 		return;
@@ -168,34 +178,82 @@ void insert_key_duration(ListProcess* list, ProcessItem* proc) {
 
 void print_list_onlyPid(ListProcess* list) {
 	if (list->first==NULL) {
-		printf("----\n");
+		printf("%s {}\n", list->name);
 		return;
 	}
+	printf("%s:\n", list->name);
 	ProcessItem* aux=list->first;
+	printf("{");
 	while (aux) {
-		printf("#%d\t", aux->process->pid);
+		printf("#%d  ", aux->process->pid);
 		aux=aux->next;
 	}
-	printf("\n\n");
+	printf("}\n\n");
 	return;
 }
 
 void print_list_onlyPid_onFile(ListProcess* list, const char* nameFile) {
 	FILE* fd=fopen(nameFile, "w");
-	if (fd==-1) {
-		printf("errore nell'apertura del file\n");
-		return;
-	}
 	if (list==NULL) {
 		fprintf(fd, "-------");
 		return;
 	}
 	ProcessItem* aux=list->first;
-	fprintf(fd, "%s\n\n", list->name);
+	fprintf(fd, "%s\n{", list->name);
 	while (aux) {
-		fprintf(fd, "pid:\t#%d\n", aux->process->pid);
+		fprintf(fd, "%d  ", aux->process->pid);
 		aux=aux->next;
 	}
+	fprintf(fd, "}");
+	fclose(fd);
+	return;
+}
+
+ProcessItem* new_process_fromData(int pid, int arriveTime, int duration, int resource) {
+	ProcessItem* p=(ProcessItem*)malloc(sizeof(ProcessItem));
+	p->next=NULL;
+	p->process=create_Process_fromData(pid, arriveTime, duration, resource);
+	if (p->process==NULL) {
+		printf("errore nella creazione del processo\n");
+		return NULL;
+	}
+	return p;
+}
+
+void print_list_onFileMode(ListProcess* list, const char* nameFile, char* mode) {
+	FILE* fd=fopen(nameFile, mode);
+	if (fd==NULL) {
+		printf("errore di apertura del file\n");
+		return;
+	}
+	int i;
+	fprintf(fd, "%s\n\n", list->name);
+	ProcessItem* aux=list->first;
+	for (i=0; i<list->size; i++) {
+		fprintf(fd, "**** process pid	%d ****\n", aux->process->pid);
+		fprintf(fd, "     time arriving	%d     \n", aux->process->time_arrive);
+		fprintf(fd, "     duration 		%d     \n", aux->process->duration);
+		fprintf(fd, "     resource		%d	   \n", aux->process->resource);
+		fprintf(fd, "******************************\n");
+		aux=aux->next;
+	}
+	fclose(fd);
+	return;
+}
+
+void print_list_onlyPid_onFileMode(ListProcess* list, const char* nameFile, char* mode) {
+	FILE* fd=fopen(nameFile, mode);
+	if (list==NULL) {
+		fprintf(fd, "-------");
+		return;
+	}
+	ProcessItem* aux=list->first;
+	fprintf(fd, "%s:\n{", list->name);
+	while (aux) {
+		fprintf(fd, "%d  ", aux->process->pid);
+		aux=aux->next;
+	}
+	fprintf(fd, "}\n\n");
 	fclose(fd);
 	return;
 }

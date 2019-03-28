@@ -1,5 +1,5 @@
 all:
-	gcc -o scheduler_main -O1 process.h list_process.h nextBurst.h scheduler.h process.c list_process.c nextBurst.c scheduler.c scheduler_main.c -Wall -w
+	gcc -o scheduler_main -O1 ../process_list/process.h ../process_list/list_process.h ../next_burst/nextBurst.h scheduler.h ../process_list/process.c ../process_list/list_process.c ../next_burst/nextBurst.c scheduler.c scheduler_main.c -Wall -w
 
 run:
 	./scheduler_main

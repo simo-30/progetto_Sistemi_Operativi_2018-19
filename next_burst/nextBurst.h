@@ -1,6 +1,6 @@
 //header per gestire la creazione di nuove richieste di risorse da parte dei processi
-#include "process.h"
-#include "list_process.h"
+#include "../process_list/process.h"
+#include "../process_list/list_process.h"
 #pragma once
 
 /* La soluzione che adotto per poter creare una nuova richiesta di risorse da parte dei processi

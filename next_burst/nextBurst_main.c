@@ -1,5 +1,5 @@
-#include "process.h"
-#include "list_process.h"
+#include "../process_list/process.h"
+#include "../process_list/list_process.h"
 #include "nextBurst.h"
 #include <stdlib.h>
 #include <stdio.h>

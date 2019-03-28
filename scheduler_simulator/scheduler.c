@@ -1,6 +1,6 @@
-#include "process.h"
-#include "list_process.h"
-#include "nextBurst.h"
+#include "../process_list/process.h"
+#include "../process_list/list_process.h"
+#include "../next_burst/nextBurst.h"
 #include "scheduler.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -51,9 +51,7 @@ void insert_on_IO_list(ListProcess* list, ProcessItem* proc) {
 }
 
 void insert_on_waiting_list(ListProcess* list, ProcessItem* proc) {
-	proc->next=list->first;
-	list->first=proc;
-	list->size+=1;
+	insert_key_duration(list, proc);
 	return;
 }
 
@@ -68,13 +66,11 @@ void insert_on_arriving_list(ListProcess* list, ProcessItem* proc) {
 }
 
 void request_new_resources(ListProcess* waiting, ListProcess* arriving, int minTime, int maxTime, int maxDuration) {
-	ProcessItem* aux=remove_first(waiting);
-	while (aux) {
-		int res=process_next_burst(aux->process, minTime, maxTime, maxDuration);
-		if (res==0) {
+	while (waiting->first!=NULL) {
+		ProcessItem* aux=remove_first(waiting);
+		if (process_next_burst(aux->process, minTime, maxTime, maxDuration)==0) {
 			insert_on_arriving_list(arriving, aux);
 		}
-		aux=remove_first(waiting);
 	}
 	return;
 }
@@ -127,4 +123,21 @@ ListProcess* generate_new_processes_fromFile(const char* nameFile) {
 	}
 	fclose(fd);
 	return l;
+}
+
+void print_scheduler_onFile(const char* nameFile, int timing, ListProcess* arriving, ListProcess* ready, ListProcess* input_output, ListProcess* waiting, ProcessItem* running) {
+	FILE* fd=fopen(nameFile, "a");
+	fprintf(fd,"---- Time %d ----\n", timing);
+	fclose(fd);
+	print_list_onlyPid_onFileMode(arriving, nameFile, "a");
+	print_list_onlyPid_onFileMode(ready, nameFile, "a");
+	print_list_onlyPid_onFileMode(input_output, nameFile, "a");
+	print_list_onlyPid_onFileMode(waiting, nameFile, "a");
+	if (running->process->pid!=-1) {
+		//il processo running deve essere valido
+		append_process_onFile(running->process, nameFile);
+	}
+	fd=fopen(nameFile, "a");
+	fprintf(fd,"----------------\n\n");
+	fclose(fd);
 }

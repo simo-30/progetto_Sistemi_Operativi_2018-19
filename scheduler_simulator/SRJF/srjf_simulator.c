@@ -1,7 +1,7 @@
-#include "process.h"
-#include "list_process.h"
-#include "nextBurst.h"
-#include "scheduler.h"
+#include "../../process_list/process.h"
+#include "../../process_list/list_process.h"
+#include "../../next_burst/nextBurst.h"
+#include "../scheduler.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

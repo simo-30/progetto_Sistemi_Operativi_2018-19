@@ -13,6 +13,7 @@ test:
 clean:
 	rm process_main
 	rm list_process_main
+	rm *.txt
 
 timing:
 	time ./list_process_main

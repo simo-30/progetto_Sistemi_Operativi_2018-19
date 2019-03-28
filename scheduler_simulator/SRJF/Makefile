@@ -1,6 +1,6 @@
 all:
-	gcc -o srjf_sim_auto -O1 *.h *.c -Wall -DVERSION=0 -w
-	gcc -o srjf_sim_file -O1 *.h *.c -Wall -DVERSION=1 -w
+	gcc -o srjf_sim_auto -O1 ../scheduler.h ../scheduler.c ../../next_burst/nextBurst.h ../../next_burst/nextBurst.c ../../process_list/list_process.h ../../process_list/list_process.c ../../process_list/process.h ../../process_list/process.c srjf_simulator.c -Wall -DVERSION=0 -w
+	gcc -o srjf_sim_file -O1 ../scheduler.h ../scheduler.c ../../next_burst/nextBurst.h ../../next_burst/nextBurst.c ../../process_list/list_process.h ../../process_list/list_process.c ../../process_list/process.h ../../process_list/process.c srjf_simulator.c -Wall -DVERSION=1 -w
 
 run_auto:
 	./srjf_sim_auto

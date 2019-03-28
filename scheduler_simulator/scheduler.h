@@ -1,7 +1,7 @@
 /*file header per la gestione delle funzioni di uno scheduler*/
-#include "process.h"
-#include "list_process.h"
-#include "nextBurst.h"
+#include "../process_list/process.h"
+#include "../process_list/list_process.h"
+#include "../next_burst/nextBurst.h"
 #pragma once
 
 ListProcess* generate_new_processes(const char* nameList, int pidMax, int maxTime, int maxDuration);
@@ -30,7 +30,7 @@ void insert_on_IO_list(ListProcess* list, ProcessItem* proc);
 
 void insert_on_waiting_list(ListProcess* list, ProcessItem* proc);
 	/**questa funzione prende una lista (dei processi in stato di waiting, 
-	 * ossia che hanno terminato il loro lavoro) e ne inserisce unaltro in lista,
+	 * ossia che hanno terminato il loro lavoro) e ne inserisce un altro in lista,
 	 * e siccome comunque poi per tutti questi processi verranno generati un nuovo
 	 * tempo di arrivo, una nuova durata ed una nuova richiesta di risorsa
 	 * non interessa in che ordine vengano inseriti nella lista, per cui per ottimizzare
@@ -57,3 +57,5 @@ void switching_process(ListProcess* ready, ListProcess* io, ProcessItem* proc);
 
 ListProcess* generate_new_processes_fromFile(const char* nameFile);
 	/**questa funzione legge da file una serie di dati che trasforma in una lista di processi in arrivo**/
+
+void print_scheduler_onFile(const char* nameFile, int timing, ListProcess* arriving, ListProcess* ready, ListProcess* input_output, ListProcess* waiting, ProcessItem* running);
