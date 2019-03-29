@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
 		strcpy(nameFileOut, argv[2]);
 	}
 	else {
-		printf("usage:\n executable <maxTime> <maxDuration> <fileNameIn>\n or\n executable <fileNameIn>\n");
+		printf("usage:\n executable <maxTime> <maxDuration> <fileNameIn>\n or\n executable <fileNameIn>\n or executable <fileNameIn> <fileNameOut>");
 		exit(1);
 	}
 	#endif
