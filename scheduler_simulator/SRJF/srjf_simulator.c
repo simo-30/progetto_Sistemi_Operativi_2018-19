@@ -183,7 +183,10 @@ int main(int argc, char** argv) {
 			//il processo deve essere valido
 			reduce_duration_running(running);
 			if (running->process->duration==0) {
-				ProcessItem* aux=new_process_fromData(running->process->pid, running->process->time_arrive, running->process->resource, running->process->resource);
+				//controllo per chiedere un nuovo burst ??
+				ProcessItem* aux=new_process_fromData(running->process->pid, 0, 0, 0); /* essendo un processo di appoggio in realtà mi interessa solamente il pid
+																						* gli altri dati (tempo di arrivo, durata prossimo burst, tipo di risorsa richiesta)
+																						* non mi interessano al momento, visto che comunque verrano creati successivamente*/
 				insert_on_waiting_list(waiting, aux);
 				if (ready->first!=NULL) {
 					running=remove_first(ready); 
