@@ -2,6 +2,7 @@
 #include "../../process_list/list_process.h"
 #include "../../next_burst/nextBurst.h"
 #include "../scheduler.h"
+#include "../../statistics/stat.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -98,6 +99,7 @@ int main(int argc, char** argv) {
 	running->process->pid=-1; /**imposto il pid a -1 così da poter controllare dopo se il processo puntato
 							   * da questa variabile è valido o meno; se il pid==-1 non è valido**/
 	pr=(ProcessItem*)malloc(sizeof(ProcessItem));
+	TypeStat stat=init_TypeStat(maxPid);
 	for (timing=0; timing<maxTime; timing++) {
 		//ciclo principale dove si svolgerà tutto il lavoro dello scheduler
 		printf("--- Tempo %d ---\n", timing);
@@ -179,23 +181,33 @@ int main(int argc, char** argv) {
 		}
 		//ho preso il processo in arrivo e messo nella lista in base al tipo di risorsa richiesta
 		//ora devo diminuire di un'unità il lavoro rimanente al processo running
+		adding_readyTime(&stat, ready);
 		if (running->process->pid != -1) {
 			//il processo deve essere valido
 			reduce_duration_running(running);
 			if (running->process->duration==0) {
-				//controllo per chiedere un nuovo burst ??
-				ProcessItem* aux=new_process_fromData(running->process->pid, 0, 0, 0); /* essendo un processo di appoggio in realtà mi interessa solamente il pid
-																						* gli altri dati (tempo di arrivo, durata prossimo burst, tipo di risorsa richiesta)
-																						* non mi interessano al momento, visto che comunque verrano creati successivamente*/
-				insert_on_waiting_list(waiting, aux);
-				if (ready->first!=NULL) {
-					running=remove_first(ready); 
-					/**essendo presente almeno un processo nella lista ready,
-					 * il primo di essi viene messo in running**/
+				//controllo per chiedere un nuovo burst
+				if (isEnding()==1) {
+					/**il processo che era in running e che ha terminato il suo burst
+					 * non ne richiede altri, per cui aggiungo l'attuale tempo come tempo 
+					 * di completamento per questo processo**/
+					insert_completingTime(&stat, running->process->pid, timing);
+					running->process->pid=-1;
 				}
 				else {
-					/*non ci sono processi in ready, quindi l'attuale processo in running non è più valido*/
-					running->process->pid=-1; //il processo running non è più valido
+					ProcessItem* aux=new_process_fromData(running->process->pid, 0, 0, 0); /* essendo un processo di appoggio in realtà mi interessa solamente il pid
+																						* gli altri dati (tempo di arrivo, durata prossimo burst, tipo di risorsa richiesta)
+																						* non mi interessano al momento, visto che comunque verrano creati successivamente*/
+					insert_on_waiting_list(waiting, aux);
+					if (ready->first!=NULL) {
+						running=remove_first(ready); 
+						/**essendo presente almeno un processo nella lista ready,
+						* il primo di essi viene messo in running**/
+					}
+					else {
+						/*non ci sono processi in ready, quindi l'attuale processo in running non è più valido*/
+						running->process->pid=-1; //il processo running non è più valido
+					}
 				}
 			}
 		}
@@ -303,18 +315,28 @@ int main(int argc, char** argv) {
 		}
 		//ho preso il processo in arrivo e messo nella lista in base al tipo di risorsa richiesta
 		//ora devo diminuire di un'unità il lavoro rimanente al processo running
+		adding_readyTime(&stat, ready);
 		if (running->process->pid != -1) {
 			//il processo deve essere valido
 			reduce_duration_running(running);
 			if (running->process->duration==0) {
-				if (ready->first!=NULL) {
-					running=remove_first(ready); 
-					/**essendo presente almeno un processo nella lista ready,
-					 * il primo di essi viene messo in running**/
+				if (isEnding()==1) {
+					/**il processo che era in running e che ha terminato il suo burst
+					 * non ne richiede altri, per cui aggiungo l'attuale tempo come tempo 
+					 * di completamento per questo processo**/
+					insert_completingTime(&stat, running->process->pid, timing);
+					running->process->pid=-1;
 				}
 				else {
-					/*non ci sono processi in ready, quindi l'attuale processo in running non è più valido*/
-					running->process->pid=-1; //il processo running non è più valido
+					if (ready->first!=NULL) {
+						running=remove_first(ready); 
+						/**essendo presente almeno un processo nella lista ready,
+						* il primo di essi viene messo in running**/
+					}
+					else {
+						/*non ci sono processi in ready, quindi l'attuale processo in running non è più valido*/
+						running->process->pid=-1; //il processo running non è più valido
+					}
 				}
 			}
 		}
@@ -334,6 +356,8 @@ int main(int argc, char** argv) {
 		timing+=1; //ad ogni ciclo devo aumentare il clock
 		printf("------\n\n");
 	}
+	print_TypeStat(stat);
+	writeStatOnFile(stat, nameFileOut);
 	fd=fopen(nameFileOut, "a");
 	fprintf(fd, "\nEND SCHEDULER");
 	fclose(fd);

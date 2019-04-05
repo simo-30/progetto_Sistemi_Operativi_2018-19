@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #pragma once
 
 ListProcess* new_ListProcess(const char* name) {
@@ -264,4 +265,17 @@ void print_list_onlyPid_onFileMode(ListProcess* list, const char* nameFile, char
 	fprintf(fd, "}\n\n");
 	fclose(fd);
 	return;
+}
+
+int isEnding() {/**verrà usata solo per controllare se il processo in running
+				 * deve chiedere o meno un nuovo burst**/
+	//ritorna 1 se NON chiede altri burst
+	srand(time(NULL));
+	int ris=rand()%1000;
+	if (ris<=500) {
+		return 1; //nessun nuovo burst
+	}
+	else {
+		return 0;
+	}
 }

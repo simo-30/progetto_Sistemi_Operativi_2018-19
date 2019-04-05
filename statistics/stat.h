@@ -1,5 +1,6 @@
 /**header per la gestione di una struttura dati per la creazione
  * e gestione delle statistiche relative allo scheduler**/
+#pragma once
 #include "../process_list/list_process.h"
 
 typedef struct {
@@ -22,3 +23,4 @@ void insert_completingTime(TypeStat* stat, int pid, int complete); //inserisce n
 																   //un nuovo tempo di completamento, il pid del processo
 																   //corrisponde all'indice del vettore
 void adding_readyTime(TypeStat* stat, ListProcess* ready); //aggiunge un'unità a tutti i processi in stato di ready
+void writeStatOnFile(TypeStat stat, const char* nameFile); //scrive alla fine del file le statistiche

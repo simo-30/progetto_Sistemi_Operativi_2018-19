@@ -31,3 +31,4 @@ void print_list_onlyPid_onFile(ListProcess* list, const char* nameFile);
 ProcessItem* new_process_fromData(int pid, int arriveTime, int duration, int resource);
 void print_list_onFileMode(ListProcess* list, const char* nameFile, char* mode);
 void print_list_onlyPid_onFileMode(ListProcess* list, const char* nameFile, char* mode);
+int isEnding(); //funzione di ausilio che determina se il processo running deve chiedere nuovi burst o no
