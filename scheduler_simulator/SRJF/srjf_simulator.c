@@ -224,7 +224,12 @@ int main(int argc, char** argv) {
 			//quindi lo inserisco nella lista di waiting
 			ProcessItem* aux=(ProcessItem*)malloc(sizeof(ProcessItem));
 			aux=remove_first(input_output);
-			insert_on_waiting_list(waiting, aux);
+			if (isEnding()==1) {
+				insert_completingTime(&stat, aux->process->pid, timing);
+			}
+			else {
+				insert_on_waiting_list(waiting, aux);
+			}
 		}
 		/* ora per tutti i processi in waiting devo calcolare una nuova richiesta
 		 * e poi inserirli nella lista dei processi in arrivo per poterli di nuovo
@@ -351,7 +356,9 @@ int main(int argc, char** argv) {
 		while (input_output->first!=NULL && input_output->first->process->duration==0) {
 			//il primo processo in I/O ha finito di lavorare 
 			//quindi lo rimuovo dallo scheduler
-			remove_first(input_output);
+			ProcessItem* aux=(ProcessItem*)malloc(sizeof(ProcessItem));
+			aux=remove_first(input_output);
+			insert_completingTime(&stat, aux->process->pid, timing);
 		}
 		timing+=1; //ad ogni ciclo devo aumentare il clock
 		printf("------\n\n");
