@@ -127,6 +127,10 @@ ListProcess* generate_new_processes_fromFile(const char* nameFile) {
 
 void print_scheduler_onFile(const char* nameFile, int timing, ListProcess* arriving, ListProcess* ready, ListProcess* input_output, ListProcess* waiting, ProcessItem* running) {
 	FILE* fd=fopen(nameFile, "a");
+	if (fd==NULL) {
+		perror("Errore nell'apertura del file\n");
+		return;
+	}
 	fprintf(fd,"---- Time %d ----\n", timing);
 	fclose(fd);
 	print_list_onlyPid_onFileMode(arriving, nameFile, "a");

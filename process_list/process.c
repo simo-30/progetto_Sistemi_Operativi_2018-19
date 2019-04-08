@@ -49,6 +49,10 @@ ProcessType* create_Process_fromData(int pid, int timeArrive, int duration, int 
 
 void append_process_onFile(ProcessType* process, const char* nameFile) {
 	FILE* fd=fopen(nameFile, "a");
+	if (fd==NULL) {
+		perror("Errore nell'apertura del file\n");
+		return;
+	}
 	fprintf(fd, "\nRunning process\n");
 	fprintf(fd, "**** process pid	%d ****\n", process->pid);
 	fprintf(fd, "     time arriving	%d\n", process->time_arrive);

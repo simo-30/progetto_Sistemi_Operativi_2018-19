@@ -83,6 +83,10 @@ int main(int argc, char** argv) {
 	#endif
 	FILE* fd=fopen(nameFileOut, "w");
 	fprintf(fd, "STARTING SCHEDULER\n\n");
+	if (fd==NULL) {
+		perror("Errore nell'apertura del file\n");
+		exit(1);
+	}
 	fclose(fd);
 	printf("Starting scheduler\n");
 	srand(time(NULL));
